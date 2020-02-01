@@ -10,7 +10,7 @@ using namespace std;
 #define Q_0 0.2
 #define EVAPORATION 0.4
 #define ITERATIONS 200
-#define DIVISOR 50
+#define DIVISOR 60
 #define NUMBER_OF_ANTS 50
 #define INITIAL_PHEROMONE 0.001
 
@@ -250,7 +250,7 @@ double antColony(Edge** edges, Point* cooridnates, const int &size) {
 				}
 		}
 		cout << localBestResult << endl;
-
+	
 		arrayLocalBestResult[it] = localBestResult;
 		if (it > 0) {
 			if (int(arrayLocalBestResult[it - 1]) == int(arrayLocalBestResult[it]))
@@ -260,7 +260,7 @@ double antColony(Edge** edges, Point* cooridnates, const int &size) {
 		}
 
 		if (repetitionCounter > (ITERATIONS / DIVISOR)) {
-			cout << "---wygladzenie krawedzi---" << endl;
+			//cout << "---wygladzenie krawedzi---" << endl;
 			for (int i = 0; i < size; i++)
 			{
 				for (int j = 0; j < size; j++)
@@ -293,22 +293,18 @@ double antColony(Edge** edges, Point* cooridnates, const int &size) {
 int main()
 {
 	int size = 1;
-	string fileName = "plik100.txt";
-	fstream file;
-	file.open("wyniki.txt", ios::out | ios::app);
+	string fileName = "bier127.txt"; 
 	Point* coordinates = readFile(fileName, size);
 	Edge** edges = distances(coordinates, size);
 	double bestResultGreedy = greedy(coordinates, edges, size);
 	clock_t begin = clock();
 	double bestResultACO = antColony(edges, coordinates, size);
 	clock_t end = clock();
-	cout << "best greedy result: " << bestResultGreedy << endl;
+	//cout << "best greedy result: " << bestResultGreedy << endl;
 	cout << "best ACO result: " << bestResultACO << endl;
 	cout << "ACO time: " << (float)(end - begin) / CLOCKS_PER_SEC<<" s"<<endl;
-	file << bestResultGreedy << ";  " << bestResultACO << endl;
-	file.close();
+	
 	delete[]edges;
 	delete[]coordinates;
-	//generateFile();
 	return 0;
 }
